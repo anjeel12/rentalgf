@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="script.css"/>
+</head>
+<body>
+    <div class="login-link">
+        <span class="text">Already have an account?</span>
+        <a href="register.html" class="text login-text">Login now</a>
+    </div>
+    
+    <div class="contain">
+        <div class="title">Registration</div>
+        <form action="http://localhost:5000/api/auth/register" method="POST">
+            <div class="user-detail">
+                <div class="input-box">
+                    <span class="detail">Full Name</span>
+                    <input type="text" name="fullName" placeholder="Enter your name" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Username</span>
+                    <input type="text" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Email</span>
+                    <input type="text" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Phone Number</span>
+                    <input type="text" name="phoneNumber" placeholder="Enter your phone number" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Password</span>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Confirm Password</span>
+                    <input type="password" name="confirmPassword" placeholder="Confirm password" required>
+                </div>
+            </div>
+            <div class="gender-details">
+                <input type="radio" name="gender" id="dot-1" value="male">
+                <input type="radio" name="gender" id="dot-2" value="female">
+                <input type="radio" name="gender" id="dot-3" value="other">
+                <span class="gender-title">Gender</span>
+                <div class="category">
+                    <label for="dot-1">
+                        <span class="dot one"></span>
+                        <span class="gender">Male</span>
+                    </label>
+                    <label for="dot-2">
+                        <span class="dot two"></span>
+                        <span class="gender">Female</span>
+                    </label>
+                    <label for="dot-3">
+                        <span class="dot three"></span>
+                        <span class="gender">Other</span>
+                    </label>
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" value="Register"> 
+            </div>
+        </form>
+        <form id="registerForm">
+            <!-- Form fields -->
+            <div class="button">
+                <input type="submit" value="Register"> 
+            </div>
+        </form>
+        
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const formObject = Object.fromEntries(formData.entries());
+    
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            });
+    
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.msg);
+                window.location.href = result.redirectUrl;
+            } else {
+                alert(result.msg);
+            }
+        });
+    </script>
+
+</body>
+</html>
